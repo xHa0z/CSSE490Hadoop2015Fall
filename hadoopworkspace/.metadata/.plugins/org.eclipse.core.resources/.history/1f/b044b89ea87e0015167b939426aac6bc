@@ -1,0 +1,24 @@
+package edu.rosehulman.xuez;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.pig.EvalFunc;
+import org.apache.pig.data.DataType;
+import org.apache.pig.data.Tuple;
+import org.apache.pig.impl.logicalLayer.FrontendException;
+import org.apache.pig.impl.logicalLayer.schema.Schema;
+import org.apache.pig.FuncSpec;
+
+public class Grade extends EvalFunc<String>{
+
+	@Override
+	public String exec(Tuple input) throws IOException {
+		
+		if()
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

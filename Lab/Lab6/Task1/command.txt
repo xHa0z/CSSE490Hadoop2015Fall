@@ -1,0 +1,14 @@
+$sandbox cd Lab
+$sandbox mkdir lab6
+$sandbox mkdir inputs
+$sandbox hadoop fs -mkdir /tmp/HiveLab
+$sandbox hadoop fs -mkdir /tmp/HiveLab/Inputs
+
+$host cd inputs
+$host scp *.txt root@172.16.36.129:./Lab/lab6
+$host cd Task1
+$hoas scp Task1.hql root@172.16.36.129:./Lab/lab6
+
+$sandbox cd /Lab/lab6
+$sandbox hive -hiveconf INPUT='hdfs:///tmp/HiveLab/Inputs/tempInput.txt' -hivevar DBName='lab6xuez' -hivevar tableName='temperature' -f Task1.hql
+

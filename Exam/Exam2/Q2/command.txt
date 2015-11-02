@@ -1,0 +1,10 @@
+$sandbox hadoop fs -mkdir /tmp/Exams
+
+$host scp * root@172.16.36.129:./Exam2/Q2
+$host ssh root@172.16.36.129
+
+$sandbox cd Exam2/Q2
+$sandbox hadoop fs -put * /tmp/Exams
+
+
+$sandbox pig  -param gradepath='hdfs:///tmp/Exams/grades.txt' -param coursepath='hdfs:///tmp/Exams/courses.txt' -param outpath='hdfs:///tmp/PigOutput' -param username='xuez' -f exam2xuez.pig

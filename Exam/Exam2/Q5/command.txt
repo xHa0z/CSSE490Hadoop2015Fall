@@ -1,0 +1,8 @@
+$host scp -r Q5 root@172.16.36.129:./Exam2
+$host ssh root@172.16.36.129
+
+$sandbox cd Exam2/Q5
+$sandbox mysql -u root -e 'source exam2/Q5MySql.sql'
+$sandbox chmod 777 sqoop.sh
+$sandbox ./sqoop.sh 172.16.36.129:3306 xuez
+

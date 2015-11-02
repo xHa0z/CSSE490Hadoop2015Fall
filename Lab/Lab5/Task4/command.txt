@@ -1,0 +1,9 @@
+$host: scp sample.gz loganalysis.pig Ratio.jar root@172.16.36.129:./Lab/lab5
+
+$host: ssh root@172.16.36.129
+
+$sandbox: hadoop fs -mkdir /tmp/PigLabTask4/
+$sandbox: hadoop fs -put Ratio.jar sample.gz /tmp/PigLabTask4/
+
+$sandbox: pig -param INPUT='hdfs:///tmp/PigLabTask4/sample.gz' -param OUTPUT='hdfs:///tmp/PigLabTask4Out/' -f loganalysis.pig 
+

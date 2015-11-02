@@ -1,0 +1,16 @@
+copy files
+scp -P 2222 .../target/*jar root@127.0.0.1
+scp -P 2222 .../input/temperatureSample.txt root@127.0.0.1
+
+connect sandbox
+ssh root@127.0.0.1
+
+make directory
+hadoop fs -mkdir /tmp/input
+hadoop fs -put temperatueSample.txt /tmp/input
+
+run jar file
+yarn jar Lab1MapReduceSample-0.0.1-SNAPSHOT.jar edu.rosehulman.xuez.MaxTemperature /tmp/tempratureSample.txt /tmp/output
+
+ 
+

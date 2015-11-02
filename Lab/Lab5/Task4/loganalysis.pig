@@ -1,0 +1,12 @@
+REGISTER 'hdfs:///tmp/PigLabTask4/Ratio.jar';
+DEFINE findHitRatio edu.rosehulman.xuez.HitRatio();
+DEFINE findErrorRatio edu.rosehulman.xuez.ErrorRatio();
+%declare CURR_DATE `date +%Y-%m-%d`;
+records = LOAD '$INPUT' using PigStorage('\t') AS (Data:chararray, Time:chararray, xEdgeLocation:chararray, scBytes:chararray, cIp:chararray, csMethod:chararray, csHost:chararray, csUriStem:chararray, scStatus:chararray, csReferer:chararray, csUserAgent:chararray, csUriQuery:chararray, csCookie:chararray, xEdgeResultType:chararray, xEdgeRequestId:chararray, xHostHeader:chararray, csProtocol:chararray, csBytes:chararray, timeTaken:chararray);
+mrecords = FOREACH (GROUP records by csUriStem) GENERATE FLATTEN(STRSPLIT(group, '/',3)) as (a1:chararray, a2:chararray, a3:chararray), FLATTEN(BagToTuple(records.xEdgeResultType)) as result;
+frecords = FILTER mrecords by (a2=='blogs');
+mrecords = FOREACH frecords GENERATE FLATTEN(STRSPLIT(a3, '/', 2)) as (name:chararray, other:chararray), result as Result;
+grecords = GROUP mrecords by name;
+frecords = FILTER grecords by (COUNT(mrecords.Result)!=0);
+result = FOREACH frecords GENERATE group, findHitRatio(mrecords.Result) as hitRatio, findErrorRatio(mrecords.Result) as errorRatio, GetYear(CurrentTime()) as Year, GetMonth(CurrentTime()) as Month, GetDay(CurrentTime()) as Day, GetHour(CurrentTime()) as hour;
+STORE result into '$OUTPUT/$CURR_DATE' using PigStorage('\t');

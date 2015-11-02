@@ -1,0 +1,9 @@
+use hue to upload grades.txt and courses.txt
+
+scp -P 2222 *.jar root@127.0.0.1:
+login into the sandbox
+ssh root@127.0.0.1 -p 2222
+
+
+
+yarn jar *.jar edu.rosehulman.xuez.JoinDriver /tmp/input/grades.txt /tmp/input/courses.txt /tmp/Exam1JoinOutput

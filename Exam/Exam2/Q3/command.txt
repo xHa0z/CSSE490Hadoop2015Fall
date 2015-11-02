@@ -1,0 +1,8 @@
+$host scp -r Q3/ root@172.16.36.129:./Exam2
+$host ssh 172.16.36.129
+
+$sandbox cd /Exam2/Q3
+
+$sandbox hive -hiveconf databaseName=exam -hiveconf tempTableName=tempTable -hiveconf tableName=examData -f hiveCreate.hql
+
+$sandbox hive -hiveconf databaseName=exam -hiveconf tempTableName=tempTable -hiveconf tableName=examData -hiveconf inpath=/tmp/PigOutput/ -hiveconf username=xuez  -f hiveInsert.hql

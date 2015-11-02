@@ -1,0 +1,5 @@
+
+$host scp Task4.hql root@172.16.36.129:./Lab/lab6
+
+$sandbox cd Lab/lab6
+$sandbox hive -hiveconf DBName=logAnalysisxuez -hiveconf PigOutDir='hdfs:///tmp/PigLabTask4Out/' -hiveconf runDate=2015-10-15/ -hiveconf year=2015 -hiveconf month=10 -hiveconf day=15 -hiveconf hour=22 -f Task4.hql

@@ -1,0 +1,8 @@
+$host: scp scp wordCount.pig Upper.jar testFile.txt root@172.16.36.129:./Lab/lab5
+
+$host: ssh root@172.16.36.129:
+
+$sandbox: cd /Lab/lab5
+$sandbox: hadoop fs -mkdir /tmp/PigLabTask2
+$sandbox: hadoop fs -put Upper.jar testFile.txt /tmp/PiglabTask2 
+$sandbox: pig  -param INPUT='hdfs:///tmp/PigLabTask2/testFile.txt' -param OUTPUT='hdfs:///tmp/PigLabTask2Out/' -f wordCount.pig

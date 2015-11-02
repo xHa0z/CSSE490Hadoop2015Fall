@@ -1,0 +1,34 @@
+package edu.rosehulman.xuez;
+
+import org.apache.hadoop.hive.ql.exec.UDF;
+import org.apache.hadoop.io.Text;
+import org.apache.commons.lang.StringUtils;
+
+public class Strip extends UDF {
+	
+	private Text result = new Text();
+	
+	
+	public Text evaluate(Text str){
+		if(str == null){
+			return null;
+		}
+
+		String resultstr = str.toString();
+		
+		resultstr = resultstr.replaceAll("[,]", "");
+		resultstr = resultstr.replaceAll("[)]", "");
+		resultstr = resultstr.replaceAll("[)]", "");
+		resultstr = resultstr.replaceAll("[.]", "");
+		return new Text(resultstr);
+	}
+//	
+//	public Text evaluate(Text str, String stripChars){
+//		if(str == null){
+//			return null;
+//		}
+//		result.set(StringUtils.strip(str.toString(), stripChars));
+//		return result;
+//	}
+
+}

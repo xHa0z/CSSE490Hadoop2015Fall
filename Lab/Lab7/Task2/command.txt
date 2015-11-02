@@ -1,0 +1,7 @@
+assume we have created the sql table we needed
+
+$host scp Task2xuez.sh root@172.16.36.129:./Lab/lab7
+
+$sandbox cd Lab/lab7
+$sandbox chomd 777 Task2xuez.sh
+$sandbox ./Task2xuez.sh 172.16.36.129:3306

@@ -1,0 +1,11 @@
+$hosd: scp findavg.pig findmax.pig findmin.pig tempInput.txt root@172.16.36.129:./Lab/lab5
+
+$host: ssh root@172.16.36.129
+
+$sandbox: cd /Lab/lab5
+$sandbox: pig -x local findavg.pig
+$sandbox: pig -x local findmax.pig
+$sandbox: pig -x local findmin.pig
+
+
+

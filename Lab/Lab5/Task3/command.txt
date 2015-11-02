@@ -1,0 +1,13 @@
+$host: scp Quality.jar tempmaxudf.pig tempminudf.pig tempavgudf.pig root@172.16.36.129:./Lab/lab5
+
+$host: ssh root@172.16.36.129
+
+$sandbox: cd Lab/lab5
+$sandbox: hadoop fs -mkdir /tmp/PigLabTask3/
+$sandbox: hadoop fs -put Quality.jar tempInput.txt /tmp/PigLabTask3/
+
+$sandbox: pig -param INPUT='hdfs:///tmp/PigLabTask3/tempInput.txt' -param OUTPUT='hdfs:///tmp/PigLabTask3Out/' -f tempmaxudf.pig
+
+$sandbox: pig -param INPUT='hdfs:///tmp/PigLabTask3/tempInput.txt' -param OUTPUT='hdfs:///tmp/PigLabTask3MinOut/' -f tempminudf.pig
+
+$sandbox: pig -param INPUT='hdfs:///tmp/PigLabTask3/tempInput.txt' -param OUTPUT='hdfs:///tmp/PigLabTask3AvgOut/' -f tempavgudf.pig

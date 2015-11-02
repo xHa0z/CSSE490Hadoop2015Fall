@@ -1,0 +1,101 @@
+\documentclass[12pt]{article}
+\textwidth = 6.5 in
+\textheight = 8 in
+\oddsidemargin = 0.0 in
+\evensidemargin = 0.0 in
+\topmargin = 0.2 in
+\headheight = 0.0 in
+\headsep = 1.1 in
+\parskip = 0.2in
+\parindent = 0.0in
+
+\usepackage{amsmath,amssymb,amsthm,enumerate,fancyhdr,mathtools,graphics,setspace}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  language=Java,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\pagestyle{fancy}
+\rhead{Zhihao Xue\\CM 3357\\Extra Credit Week 7\\CSSE490  Dr. Mohan\\Thursday,Oct 22, 2015}
+
+%=======================================================================
+\begin{document}
+	\begin{itemize}
+		\item How to specify and use a hive user defined aggregate function (UDAF) for hive with a code sample. \\
+		An aggregate function is more difficult to write than  a regular UDF. Values are aggregated in chunks, so the implementation has to be capable of combining partial aggregation into a final result.           
+		\begin{verbatim}
+package com.hadoopbook.hive;
+
+import org.apache.hadoop.hive.ql.exec.UDAF;
+import org.apache.hadoop.hive.ql.exec.UDAFEvaluator;
+import org.apache.hadoop.io.IntWritable;
+
+public class Maximum extends UDAF {
+
+  public static class MaximumIntUDAFEvaluator implements UDAFEvaluator {
+    
+    private IntWritable result;
+    
+    public void init() {
+      System.err.printf("%s %s\n", hashCode(), "init");
+      result = null;
+    }
+
+    public boolean iterate(IntWritable value) {
+      System.err.printf("%s %s %s\n", hashCode(), "iterate", value);
+      if (value == null) {
+        return true;
+      }
+      if (result == null) {
+        result = new IntWritable(value.get());
+      } else {
+        result.set(Math.max(result.get(), value.get()));
+      }
+      return true;
+    }
+
+    public IntWritable terminatePartial() {
+      System.err.printf("%s %s\n", hashCode(), "terminatePartial");
+      return result;
+    }
+
+    public boolean merge(IntWritable other) {
+      System.err.printf("%s %s %s\n", hashCode(), "merge", other);
+      return iterate(other);
+    }
+
+    public IntWritable terminate() {
+      System.err.printf("%s %s\n", hashCode(), "terminate");
+      return result;
+    }
+  }
+}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+		                                                                                                                                                                                                                                     
+		\end{verbatim}
+		
+		\begin{lstlisting}[language=bash]
+		hive> CREATE TEMPORARY FUNCTION maximum AS 'com.hadoopbook.hive.Maximun';
+		hive> SELECT maximum(temperature) FROM records;
+		\end{lstlisting}	
+	\end{itemize}
+	
+\end{document}

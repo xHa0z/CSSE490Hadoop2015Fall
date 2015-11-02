@@ -1,0 +1,3 @@
+$host scp task3xuez.conf root@hadoop-03.csse.rose-hulman.edu:./xuez
+
+$sandbox flume-ng agent -f task3xuez.conf -n a1

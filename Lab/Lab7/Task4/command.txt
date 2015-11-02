@@ -1,0 +1,3 @@
+$host scp text.jar task4xuez.conf root@hadoop-03.csse.rose-hulman.edu
+
+$sandbox flume-ng agent -f task4xuez.conf -n a1 -C text.jar

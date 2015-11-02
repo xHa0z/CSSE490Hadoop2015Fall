@@ -1,0 +1,9 @@
+use hue to upload transcripts.txt
+
+scp -P 2222 *.jar root@127.0.0.1:
+login into the sandbox
+ssh root@127.0.0.1 -p 2222
+
+
+
+yarn jar *.jar edu.rosehulman.xuez.AverageDriver /tmp/input/transctipts.txt /tmp/Exam1AverageOutput

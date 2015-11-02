@@ -1,0 +1,23 @@
+copy jar file to sandbox
+host$ scp *.jar root@172.16.36.129 
+#since I use VMware, the IP is not the same
+
+SSH to the sandbox
+host$ ssh root@172.16.36.129
+
+make directory for this lab
+box$ mkdir Lab/lab2
+
+copy jar file to lab folder
+box$ mv Lab2ClassSample-0.0.1-SNAPSHOT.jar ~/Lab/lab2
+
+move to lab2 folder
+box$ cd Lab/lab2
+
+Then excute jar file, assume we've already create the input directory for the sample text file
+
+This is for CountDriver
+box$ yarn jar Lab2ClassSample-0.0.1-SNAPSHOT.jar edu.rosehulman.xuez.CountDriver /tmp/input/lab2/nameSample.txt /tmp/Lab/lab2/nameSampleOutpu
+
+This is for CountDriverComparator
+box$ yarn jar Lab2ClassSample-0.0.1-SNAPSHOT.jar edu.rosehulman.xuez.CountDriverComparator /tmp/input/lab2/nameSample.txt /tmp/Lab/lab2/nameSampleOutput1

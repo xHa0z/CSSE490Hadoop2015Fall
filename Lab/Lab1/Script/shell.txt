@@ -1,0 +1,7 @@
+copy a file form the local filesystem to HDFS
+hadoop fs put --from source_path_and_file --to dest_path_and_file
+for example: hadoop fs put ~/sample.txt /tmp/input
+
+copy a file form HDFS to local filesystem
+hadoop fs get --from source_path_and_file --to dest_path_and_file
+for example: hadoop fs get /tmp/input/sample.txt ~/

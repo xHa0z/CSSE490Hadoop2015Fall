@@ -1,0 +1,26 @@
+Copy the input data and pig files into sandbox
+scp -P 2222 ~/../Lab6/Task3/adminEmployees.txt root@127.0.0.1:~/Lab6Input
+scp -P 2222 ~/../Lab6/Task3/csseEmployees.txt root@127.0.0.1:~/Lab6Input
+scp -P 2222 ~/../Lab6/Task3/eceEmployees.txt root@127.0.0.1:~/Lab6Input
+scp -P 2222 ~/../Lab6/Task3/allEmployees.txt root@127.0.0.1:~/Lab6Input
+scp -P 2222 ~/../Lab6/Task3/task3Initalzhenw.hql root@127.0.0.1:~/Lab6Hive
+scp -P 2222 ~/../Lab6/Task3/task3Partitionzhenw.hql root@127.0.0.1:~/Lab6Hive
+
+login into the sandbox
+ssh root@127.0.0.1 -p 2222
+
+make the directory and copy the input file into HDFS
+hadoop fs -mkdir /tmp/Lab6Input (if there is no Lab6Input fouder)
+hadoop fs -put ~/Lab6Input/adminEmployees.txt /tmp/Lab6Input
+hadoop fs -put ~/Lab6Input/csseEmployees.txt /tmp/Lab6Input
+hadoop fs -put ~/Lab6Input/eceEmployees.txt /tmp/Lab6Input
+hadoop fs -put ~/Lab6Input/allEmployees.txt /tmp/Lab6Input
+
+run the pig program
+hive -hiveconf databaseName=lab6zhenw -hiveconf allEmployeesLocation=/tmp/Lab6Input/allEmployees.txt -hiveconf csseEmployeesLocation=/tmp/Lab6Input/csseEmployees.txt -hiveconf eceEmployeesLocation=/tmp/Lab6Input/eceEmployees.txt -hiveconf adminEmployeesLocation=/tmp/Lab6Input/adminEmployees.txt -f Lab6Hive/task3Initalzhenw.hql 
+
+copy the data to manual add
+hadoop fs -cp /apps/hive/warehouse/lab6zhenw.db/rosedynamicemployees/* /apps/hive/warehouse/lab6zhenw.db/rosedynamicemployeesmanualadd/
+
+run manual add fix file
+hive -hiveconf databaseName=lab6zhenw -f Lab6Hive/task3Partitionzhenw.hql 

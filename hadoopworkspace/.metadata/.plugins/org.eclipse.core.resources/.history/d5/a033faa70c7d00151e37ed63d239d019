@@ -1,0 +1,14 @@
+package edu.rosehulman.xuez;
+
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.apache.flume.Context;
+import org.apache.flume.Event;
+import org.apache.flume.event.EventBuilder;
+import org.apache.flume.interceptor.*;
+
+public class TextInterceptor implements Interceptor{
+
+}

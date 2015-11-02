@@ -1,0 +1,76 @@
+\documentclass[12pt]{article}
+\textwidth = 6.5 in
+\textheight = 8 in
+\oddsidemargin = 0.0 in
+\evensidemargin = 0.0 in
+\topmargin = 0.2 in
+\headheight = 0.0 in
+\headsep = 1.1 in
+\parskip = 0.2in
+\parindent = 0.0in
+
+\usepackage{amsmath,amssymb,amsthm,enumerate,fancyhdr,mathtools,graphics,setspace}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=SQL,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\pagestyle{fancy}
+\rhead{Zhihao Xue\\CM 3357\\Lab7\\CSSE490  Dr. Mohan\\Thur,Oct 28, 2015}
+
+%=======================================================================
+\begin{document}
+	\begin{itemize}
+		\item create table command in mysql that can be used as the target table for exporting\\
+		\begin{lstlisting}
+CREATE TABLE LogDataExport(
+blogName varchar(25) DEFAULT NULL,
+hitRatio float DEFAULT NULL,
+errRatio float DEFAULT NULL,
+year int DEFAULT NULL,
+month int DEFAULT NULL,
+day int DEFAULT NULL,
+hour int DEFAULT NULL,
+UNIQUE KEY fuplicateConstraint (blogName)
+)
+	\end{lstlisting}
+
+	\item sqoop command \\
+	\begin{lstlisting}[language = bash]
+sqoop export --connect jdbc:mysql://<mysql path>/<databases name> --username root --table logdata -m 1 --export-dir <exprot dir>  --input-fields-terminated-by '\t' --input-null-string 'This is a Null String' --input-null-non-string '\\N'
+	\end{lstlisting}
+	
+	\item list few reason for sqoop export fail. Can sqoop export faulure result in a partial amount of dta being exported to mysql?\\
+	Reasons for fail:
+	\begin{itemize}
+		\item Loss of connectivity from the Hadoop cluster to the database (either due to hardware fault, or server software crashes)
+		\item Attempting to INSERT a row which violates a consistency constraint (for example, inserting a duplicate primary key value)
+		\item Attempting to parse an incomplete or malformed record from the HDFS source data
+		\item Attempting to parse records using incorrect delimiters
+		\item Capacity issues (such as insufficient RAM or disk space)
+		\end{itemize}
+		individual map tasks commit their current transaction periodically. If a task fails, the current transaction will be rolled back. Any previously-committed transactions will remain durable in the database, leading to a partially-complete export.
+		\item What is the role of a staging table in a sqoop Export?\\
+		Since Sqoop breaks down export process into multiple transactions, it is possible that a failed export job may result in partial data being committed to the database. This can further lead to subsequent jobs failing due to insert collisions in some cases, or lead to duplicated data in others. You can overcome this problem by specifying a staging table via the --staging-table option
+		
+	\end{itemize}
+	
+\end{document}

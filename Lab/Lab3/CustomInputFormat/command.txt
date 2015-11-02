@@ -1,0 +1,6 @@
+
+scp -P 222 *.jar root@172.16.36.129
+yarn hadoop jar Lab3InputFormatAndCounter-0.0.1-SNAPSHOT.jar edu.rosehulman.xuez.CustomInputFormat /tmp/input/ /tmp/CustomInputFormantOutput Mary
+
+
+yarn hadoop jar Lab3InputFormatAndCounter-0.0.1-SNAPSHOT.jar edu.rosehulman.xuez.CustomInputFormatWithCounter /tmp/input/ /tmp/CustomInputFormantOutput Mary

@@ -1,0 +1,35 @@
+//This is the overall command.txt for entire exam, and in each question folder, there is also indiviual command.txt for each problem.
+$sandbox mkdir Exam2
+$sandbox hadoop fs -mkdir /tmp/xuez
+$sandbox hadoop fs -mkdir /tmp/Exams
+
+$host scp -r * root@172.16.36.129:./Exam2
+$host ssh root@172.16.36.129
+
+$sandbox cd Exam2
+$sandbox cd Q1
+$sandbox hadoop fs -put Q1.conf time.jar /tmp/xuez
+$sandbox flume-ng agent -n a1 -f Q1.conf -C time.jar
+
+$sandbox cd ..
+$sandbox cd Q2
+$sandbox hadoop fs -put * /tmp/Exams
+$sandbox pig  -param gradepath='hdfs:///tmp/Exams/grades.txt' -param coursepath='hdfs:///tmp/Exams/courses.txt' -param outpath='hdfs:///tmp/PigOutput' -param username='xuez' -f exam2xuez.pig
+
+$sandbox cd ..
+$sandbox cd Q3
+$sandbox hive -hiveconf databaseName=exam -hiveconf tempTableName=tempTable -hiveconf tableName=examData -f hiveCreate.hql
+$sandbox hive -hiveconf databaseName=exam -hiveconf tempTableName=tempTable -hiveconf tableName=examData -hiveconf inpath=/tmp/PigOutput/ -hiveconf username=xuez  -f hiveInsert.hql
+
+$sandbox cd ..
+$sandbox cd Q4
+$sandbox hive -hiveconf databaseName=exam -hiveconf tableName=examData -f q4.hql
+
+$sandbox cd ..
+$sandbox cd Q5
+$sandbox mysql -u root -e 'source exam2/Q5MySql.sql'
+$sandbox chmod 777 sqoop.sh
+$sandbox ./sqoop.sh 172.16.36.129:3306 xuez
+
+
+

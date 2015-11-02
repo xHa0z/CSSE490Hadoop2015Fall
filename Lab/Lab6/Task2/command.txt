@@ -1,0 +1,6 @@
+$host scp Task2.* root@172.16.36.129:./Lab/lab6
+
+$sandbox cd Lab/lab6
+$sandbox hadoop fs -put Task2.jar /tmp/HiveLab/
+
+$sandbox hive -hiveconf INPUT='hdfs:///tmp/HiveLab/Inputs/testFile.txt' -hivevar DBName='lab6xuez2' -hiveconf tableName1='wordin' -hiveconf tableName2='wordcount' -hiveconf JarPath='hdfs:///tmp/HiveLab/Task2.jar' -f Task2.hql;

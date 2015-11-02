@@ -1,0 +1,6 @@
+$host scp -r Q4 root@172.16.36.129:./Exam2
+$host ssh root@172.16.36.129
+
+$sandbox cd Exam2/Q4
+
+$sandbox hive -hiveconf databaseName=exam -hiveconf tableName=examData -f q4.hql

@@ -1,0 +1,9 @@
+$hadoop-03 hadoop fs -mkdir /tmp/xuez
+
+
+$host scp Q1.conf time.jar root@hadoop-03.csse.rose-hulman.edu:/xuez
+
+%hadoop-03 cd /xuez
+$hadoop-03 hadoop fs -put Q1.conf time.jar /tmp/xuez
+
+$hadoop-03 flume-ng agent -n a1 -f Q1.conf -C time.jar 
